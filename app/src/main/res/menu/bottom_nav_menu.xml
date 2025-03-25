@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_notes"
+        android:icon="@drawable/ic_notes"
+        android:title="Заметки" />
+
+    <item
+        android:id="@+id/navigation_categories"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Категории" />
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_search"
+        android:title="Поиск" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Настройки" />
+</menu> 
