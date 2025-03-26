@@ -56,7 +56,7 @@ class NotesFragment : Fragment() {
             onNoteLongClick = { note -> (activity as MainActivity).showDeleteDialog(note) }
         )
         binding.notesRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = notesAdapter
         }
     }

@@ -3,38 +3,71 @@ package com.example.testtest.ui
 import com.kaspersky.kaspresso.screens.KScreen
 import com.example.testtest.R
 import io.github.kakaocup.kakao.bottomnav.KBottomNavigationView
+import io.github.kakaocup.kakao.recycler.KRecyclerView
+import io.github.kakaocup.kakao.recycler.KRecyclerItem
+import io.github.kakaocup.kakao.text.KTextView
+import io.github.kakaocup.kakao.common.views.KView
+import io.github.kakaocup.kakao.text.KButton
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import org.hamcrest.Matcher
+import android.view.View
+import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 
 /**
- * Объект MainScreen описывает элементы интерфейса главного экрана приложения
- * для тестирования с использованием Kaspresso
+ * Главный экран приложения
  */
-object MainScreen : KScreen<MainScreen>() {
-    override val layoutId: Int? = null
+class MainScreen : KScreen<MainScreen>() {
+
+    override val layoutId: Int? = R.layout.activity_main
     override val viewClass: Class<*>? = null
 
-    // Элемент нижней навигации
     val bottomNavigation = KBottomNavigationView { withId(R.id.bottom_navigation) }
+    val notesRecyclerView = KRecyclerView(
+        builder = { withId(R.id.notesRecyclerView) },
+        itemTypeBuilder = {
+            itemType(::NoteItem)
+        }
+    )
+    val addNoteButton = KButton { withId(R.id.addNoteButton) }
 
     /**
-     * Выбирает вкладку в нижней навигации по её идентификатору
-     * @param id идентификатор вкладки (R.id.navigation_*)
+     * Выбирает вкладку в нижней навигации
      */
-    fun selectTab(id: Int) {
+    fun selectTab(tabId: Int) {
         bottomNavigation {
-            setSelectedItem(id)
+            isDisplayed()
+            setSelectedItem(tabId)
         }
     }
 
     /**
-     * Возвращает идентификатор вкладки по её типу
-     * @param tabType тип вкладки (Заметки, Поиск, Настройки)
-     * @return идентификатор вкладки (R.id.navigation_*)
+     * Открывает экран создания заметки
      */
-    fun getTabIdByTab(tabType: TabType): Int {
-        return when (tabType) {
-            TabType.Заметки -> R.id.navigation_notes
-            TabType.Поиск -> R.id.navigation_search
-            TabType.Настройки -> R.id.navigation_settings
+    fun openCreateNoteScreen() {
+        addNoteButton {
+            isDisplayed()
+            click()
+        }
+    }
+
+    /**
+     * Элемент списка заметок
+     */
+    class NoteItem(parent: Matcher<View>) : KRecyclerItem<NoteItem>(parent) {
+        val noteTitle = KTextView(parent) { withId(R.id.noteTitle) }
+        val noteContent = KTextView(parent) { withId(R.id.noteContent) }
+    }
+
+    companion object {
+        /**
+         * Возвращает ID вкладки по её типу
+         */
+        fun getTabIdByTab(tabType: TabType): Int {
+            return when (tabType) {
+                TabType.Заметки -> R.id.navigation_notes
+                TabType.Поиск -> R.id.navigation_search
+                TabType.Настройки -> R.id.navigation_settings
+            }
         }
     }
 }

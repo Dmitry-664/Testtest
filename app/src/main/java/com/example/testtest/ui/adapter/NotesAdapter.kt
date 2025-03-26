@@ -19,9 +19,6 @@ class NotesAdapter(
     private val onNoteLongClick: (Note) -> Unit
 ) : ListAdapter<Note, NotesAdapter.NoteViewHolder>(NoteDiffCallback()) {
 
-    private var notes: List<Note> = emptyList()
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale("ru"))
-
     /**
      * Создает и возвращает ViewHolder для элемента списка
      */
@@ -46,6 +43,7 @@ class NotesAdapter(
      * @param notes новый список заметок
      */
     fun updateNotes(notes: List<Note>) {
+        println("Обновление списка заметок. Количество: ${notes.size}")
         submitList(notes)
     }
 
