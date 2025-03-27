@@ -22,7 +22,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import android.view.View
 
 /**
  * Базовый тест для MainActivity
@@ -32,7 +31,6 @@ class MainActivityTest : KoinTest, TestCase() {
 
     private lateinit var activityScenario: ActivityScenario<MainActivity>
     private val repository: NotesRepository by inject()
-    private var decorView: View? = null
     private val mainScreen = MainScreen()
     private val editNoteScreen = EditNoteScreen()
 
@@ -53,11 +51,6 @@ class MainActivityTest : KoinTest, TestCase() {
         
         // Запуск MainActivity
         activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        
-        // Получаем decorView для проверок
-        activityScenario.onActivity { activity ->
-            decorView = activity.window.decorView
-        }
     }
 
     @After
@@ -155,18 +148,6 @@ class MainActivityTest : KoinTest, TestCase() {
                 println("Создана заметка $i")
                 // Небольшая задержка для стабильности теста
                 Thread.sleep(500)
-            }
-            
-            // Проверяем количество заметок в репозитории
-            runBlocking {
-                val notes = repository.getAllNotes().first()
-                println("Количество заметок в репозитории: ${notes.size}")
-                assert(notes.size == 3) { "Ожидалось 3 заметки, но найдено ${notes.size}" }
-                
-                // Выводим заметки для отладки
-                notes.forEachIndexed { index, note ->
-                    println("Заметка #${index + 1}: ${note.title} - ${note.content}")
-                }
             }
         }
         

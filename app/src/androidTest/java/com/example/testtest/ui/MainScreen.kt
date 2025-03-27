@@ -28,6 +28,15 @@ class MainScreen : KScreen<MainScreen>() {
             itemType(::NoteItem)
         }
     )
+
+    /**
+     * Элемент списка заметок
+     */
+    class NoteItem(parent: Matcher<View>) : KRecyclerItem<NoteItem>(parent) {
+        val noteTitle = KTextView(parent) { withId(R.id.noteTitle) }
+        val noteContent = KTextView(parent) { withId(R.id.noteContent) }
+    }
+
     val addNoteButton = KButton { withId(R.id.addNoteButton) }
 
     /**
@@ -48,14 +57,6 @@ class MainScreen : KScreen<MainScreen>() {
             isDisplayed()
             click()
         }
-    }
-
-    /**
-     * Элемент списка заметок
-     */
-    class NoteItem(parent: Matcher<View>) : KRecyclerItem<NoteItem>(parent) {
-        val noteTitle = KTextView(parent) { withId(R.id.noteTitle) }
-        val noteContent = KTextView(parent) { withId(R.id.noteContent) }
     }
 
     companion object {
